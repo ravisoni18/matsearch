@@ -1,0 +1,353 @@
+<mvc:View
+    controllerName="knmtapp.controller.Create"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap">
+    
+    <uxap:ObjectPageLayout id="objectPageLayout"
+                           showTitleInHeaderContent="true"
+                           upperCaseAnchorBar="false">
+        
+        <!-- Header Title -->
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle>
+                <uxap:expandedHeading>
+                    <Title text="Create New KNMT Request" wrapping="true"/>
+                </uxap:expandedHeading>
+                <uxap:snappedHeading>
+                    <Title text="Create New KNMT Request" wrapping="true"/>
+                </uxap:snappedHeading>
+                <uxap:actions>
+                    <Button text="Save" type="Emphasized" icon="sap-icon://save" press="onSave"/>
+                    <Button text="Cancel" icon="sap-icon://decline" press="onNavBack"/>
+                </uxap:actions>
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <!-- Header Content -->
+        <uxap:headerContent>
+            <HBox>
+                <VBox class="sapUiSmallMarginEnd">
+                    <Label text="Status"/>
+                    <ObjectStatus text="Draft" state="Warning" icon="sap-icon://document"/>
+                </VBox>
+                <VBox class="sapUiSmallMarginEnd">
+                    <Label text="Request Type"/>
+                    <Text text="Material Request"/>
+                </VBox>
+            </HBox>
+        </uxap:headerContent>
+
+        <!-- Sections -->
+        <uxap:sections>
+            
+            <!-- Customer & Organization Section -->
+            <uxap:ObjectPageSection title="Customer &amp; Organization Information" titleUppercase="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection>
+                        <uxap:blocks>
+                            <form:Form editable="true">
+                                <form:layout>
+                                    <form:ResponsiveGridLayout
+                                        labelSpanXL="4"
+                                        labelSpanL="4"
+                                        labelSpanM="4"
+                                        labelSpanS="12"
+                                        adjustLabelSpan="false"
+                                        emptySpanXL="0"
+                                        emptySpanL="0"
+                                        emptySpanM="0"
+                                        emptySpanS="0"
+                                        columnsXL="2"
+                                        columnsL="2"
+                                        columnsM="1"
+                                        singleContainerFullSize="false"/>
+                                </form:layout>
+                                <form:formContainers>
+                                    <form:FormContainer>
+                                        <form:formElements>
+                                            <form:FormElement label="Customer Number">
+                                                <form:fields>
+                                                    <Input id="createKunnr" 
+                                                           placeholder="Enter Customer Number"
+                                                           required="true"
+                                                           valueState="None"
+                                                           valueStateText="Customer number is required">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Sales Organization">
+                                                <form:fields>
+                                                    <Input id="createVkorg" 
+                                                           placeholder="Enter Sales Organization"
+                                                           required="true"
+                                                           valueState="None"
+                                                           valueStateText="Sales organization is required">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                        </form:formElements>
+                                    </form:FormContainer>
+                                    
+                                    <form:FormContainer>
+                                        <form:formElements>
+                                            <form:FormElement label="Location">
+                                                <form:fields>
+                                                    <Input id="createZzloc" 
+                                                           placeholder="Enter Location Code"
+                                                           showValueHelp="false">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Department">
+                                                <form:fields>
+                                                    <Input id="createZzdepartment" 
+                                                           placeholder="Enter Department Code">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                        </form:formElements>
+                                    </form:FormContainer>
+                                </form:formContainers>
+                            </form:Form>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <!-- Material Information Section -->
+            <uxap:ObjectPageSection title="Material Information" titleUppercase="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection>
+                        <uxap:blocks>
+                            <form:Form editable="true">
+                                <form:layout>
+                                    <form:ResponsiveGridLayout
+                                        labelSpanXL="4"
+                                        labelSpanL="4"
+                                        labelSpanM="4"
+                                        labelSpanS="12"
+                                        adjustLabelSpan="false"
+                                        emptySpanXL="0"
+                                        emptySpanL="0"
+                                        emptySpanM="0"
+                                        emptySpanS="0"
+                                        columnsXL="2"
+                                        columnsL="2"
+                                        columnsM="1"
+                                        singleContainerFullSize="false"/>
+                                </form:layout>
+                                <form:formContainers>
+                                    <form:FormContainer title="Basic Material Data">
+                                        <form:formElements>
+                                            <form:FormElement label="Material Number">
+                                                <form:fields>
+                                                    <Input id="createKdmat" 
+                                                           placeholder="Enter Material Number"
+                                                           required="true"
+                                                           valueState="None"
+                                                           valueStateText="Material number is required">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Material Description">
+                                                <form:fields>
+                                                    <TextArea id="createPostx" 
+                                                              placeholder="Enter Material Description"
+                                                              rows="2"
+                                                              maxLength="200">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </TextArea>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Material Usage">
+                                                <form:fields>
+                                                    <Select id="createZzmaterialusage" 
+                                                            forceSelection="false">
+                                                        <items>
+                                                            <core:Item key="" text="Select Usage"/>
+                                                            <core:Item key="A" text="Type A"/>
+                                                            <core:Item key="B" text="Type B"/>
+                                                            <core:Item key="C" text="Type C"/>
+                                                        </items>
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Select>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="EAN">
+                                                <form:fields>
+                                                    <Input id="createZzean11" 
+                                                           placeholder="Enter EAN/Barcode"
+                                                           type="Text">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                        </form:formElements>
+                                    </form:FormContainer>
+                                    
+                                    <form:FormContainer title="Packaging Details">
+                                        <form:formElements>
+                                            <form:FormElement label="Pack Quantity">
+                                                <form:fields>
+                                                    <StepInput id="createZzpack"
+                                                               min="0"
+                                                               max="9999"
+                                                               step="1"
+                                                               value="1"
+                                                               width="100%">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </StepInput>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Unit of Measure">
+                                                <form:fields>
+                                                    <Select id="createZzuom">
+                                                        <items>
+                                                            <core:Item key="CS" text="Case (CS)"/>
+                                                            <core:Item key="EA" text="Each (EA)"/>
+                                                            <core:Item key="PC" text="Piece (PC)"/>
+                                                            <core:Item key="BX" text="Box (BX)"/>
+                                                            <core:Item key="PK" text="Pack (PK)"/>
+                                                        </items>
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Select>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Warehouse Pack">
+                                                <form:fields>
+                                                    <StepInput id="createZzpack_whse"
+                                                               min="0"
+                                                               max="9999"
+                                                               step="1"
+                                                               value="1"
+                                                               width="100%">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </StepInput>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Size">
+                                                <form:fields>
+                                                    <Input id="createZzsize" 
+                                                           placeholder="Enter Size (e.g., L, XL, 10oz)">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                        </form:formElements>
+                                    </form:FormContainer>
+                                </form:formContainers>
+                            </form:Form>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <!-- Additional Information Section -->
+            <uxap:ObjectPageSection title="Additional Information" titleUppercase="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection>
+                        <uxap:blocks>
+                            <form:Form editable="true">
+                                <form:layout>
+                                    <form:ResponsiveGridLayout
+                                        labelSpanXL="4"
+                                        labelSpanL="4"
+                                        labelSpanM="4"
+                                        labelSpanS="12"
+                                        adjustLabelSpan="false"
+                                        emptySpanXL="0"
+                                        emptySpanL="0"
+                                        emptySpanM="0"
+                                        emptySpanS="0"
+                                        columnsXL="1"
+                                        columnsL="1"
+                                        columnsM="1"
+                                        singleContainerFullSize="false"/>
+                                </form:layout>
+                                <form:formContainers>
+                                    <form:FormContainer>
+                                        <form:formElements>
+                                            <form:FormElement label="BDR Sub Category">
+                                                <form:fields>
+                                                    <Input id="createZzbdrsub" 
+                                                           placeholder="Enter BDR Sub Category"
+                                                           maxLength="100">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                        </form:formElements>
+                                    </form:FormContainer>
+                                </form:formContainers>
+                            </form:Form>
+                            
+                            <!-- Info Panel -->
+                            <VBox class="sapUiSmallMarginTop">
+                                <MessageStrip
+                                    text="Please ensure all required fields are filled before saving. Required fields are marked with an asterisk (*)."
+                                    type="Information"
+                                    showIcon="true"
+                                    class="sapUiSmallMarginBottom">
+                                </MessageStrip>
+                            </VBox>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+        </uxap:sections>
+
+        <!-- Footer -->
+        <uxap:footer>
+            <OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button text="Save" type="Emphasized" icon="sap-icon://save" press="onSave"/>
+                <Button text="Cancel" icon="sap-icon://decline" press="onNavBack"/>
+            </OverflowToolbar>
+        </uxap:footer>
+        
+    </uxap:ObjectPageLayout>
+    
+</mvc:View>

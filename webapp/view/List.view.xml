@@ -1,0 +1,104 @@
+<mvc:View
+    controllerName="knmtapp.controller.List"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core">
+    <Page title="KNMT Request List" showNavButton="false">
+        <content>
+            <VBox>
+                <Toolbar>
+                    <Title text="Filters" level="H2"/>
+                </Toolbar>
+                <HBox wrap="Wrap">
+                    <VBox width="250px" class="sapUiSmallMargin">
+                        <Label text="Customer Number" labelFor="filterKunnr"/>
+                        <Input id="filterKunnr" placeholder="Enter Customer Number"/>
+                    </VBox>
+                    <VBox width="250px" class="sapUiSmallMargin">
+                        <Label text="Sales Organization" labelFor="filterVkorg"/>
+                        <Input id="filterVkorg" placeholder="Enter Sales Org"/>
+                    </VBox>
+                    <VBox width="250px" class="sapUiSmallMargin">
+                        <Label text="Status" labelFor="filterStatus"/>
+                        <Select id="filterStatus">
+                            <items>
+                                <core:Item key="" text="All"/>
+                                <core:Item key="P" text="Pending"/>
+                                <core:Item key="A" text="Approved"/>
+                                <core:Item key="R" text="Rejected"/>
+                            </items>
+                        </Select>
+                    </VBox>
+                    <VBox width="250px" class="sapUiSmallMargin">
+                        <Label text="Material Number" labelFor="filterKdmat"/>
+                        <Input id="filterKdmat" placeholder="Enter Material Number"/>
+                    </VBox>
+                </HBox>
+                <Toolbar>
+                    <ToolbarSpacer/>
+                    <Button text="Search" type="Emphasized" press="onSearch"/>
+                    <Button text="Clear" press="onClear"/>
+                </Toolbar>
+
+                <Table id="requestTable" 
+                       items="{listData>/items/data}"
+                       mode="SingleSelectMaster">
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="Requests" level="H2"/>
+                            <ToolbarSpacer/>
+                            <Button text="Create" type="Emphasized" icon="sap-icon://add" press="onNavigateToCreate"/>
+                            <Button text="Refresh" icon="sap-icon://refresh" press="onRefresh"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+                            <Text text="Customer"/>
+                        </Column>
+                        <Column minScreenWidth="Desktop" demandPopin="true">
+                            <Text text="Sales Org"/>
+                        </Column>
+                        <Column>
+                            <Text text="Material"/>
+                        </Column>
+                        <Column minScreenWidth="Tablet" demandPopin="true">
+                            <Text text="Description"/>
+                        </Column>
+                        <Column minScreenWidth="Desktop" demandPopin="true">
+                            <Text text="EAN"/>
+                        </Column>
+                        <Column>
+                            <Text text="Status"/>
+                        </Column>
+                        <Column minScreenWidth="Desktop" demandPopin="true">
+                            <Text text="Location"/>
+                        </Column>
+                        <Column minScreenWidth="Desktop" demandPopin="true">
+                            <Text text="Created By"/>
+                        </Column>
+                        <Column minScreenWidth="Desktop" demandPopin="true">
+                            <Text text="Changed By"/>
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{listData>kunnr}"/>
+                                <Text text="{listData>vkorg}"/>
+                                <Text text="{listData>kdmat}"/>
+                                <Text text="{listData>postx}"/>
+                                <Text text="{listData>zzean11}"/>
+                                <ObjectStatus 
+                                    text="{listData>statusText}"
+                                    state="{path: 'status', formatter: '.formatStatus'}"/>
+                                <Text text="{listData>zzloc}"/>
+                                <Text text="{listData>ernam}"/>
+                                <Text text="{listData>last_changed_by_user}"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>
