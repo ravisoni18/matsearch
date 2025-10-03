@@ -1,0 +1,366 @@
+<mvc:View
+    controllerName="knmtapp.controller.Detail"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap">
+    
+    <uxap:ObjectPageLayout id="objectPageLayout"
+                           showTitleInHeaderContent="true"
+                           upperCaseAnchorBar="false"
+                           enableLazyLoading="false">
+        
+        <!-- Header Title -->
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle>
+                <uxap:expandedHeading>
+                    <Title text="KNMT Request Details" wrapping="true"/>
+                </uxap:expandedHeading>
+                <uxap:snappedHeading>
+                    <Title text="KNMT Request - {detailData>/kunnr}" wrapping="true"/>
+                </uxap:snappedHeading>
+                <uxap:actions>
+                    <Button 
+                        text="{= ${detailData>/editMode} ? 'Save' : 'Edit'}" 
+                        type="Emphasized" 
+                        icon="{= ${detailData>/editMode} ? 'sap-icon://save' : 'sap-icon://edit'}" 
+                        press="onToggleEdit"/>
+                    <Button 
+                        text="Delete" 
+                        icon="sap-icon://delete" 
+                        type="Reject"
+                        press="onDelete"
+                        visible="{= !${detailData>/editMode}}"/>
+                    <Button 
+                        text="Cancel" 
+                        icon="sap-icon://decline" 
+                        press="onCancel"/>
+                </uxap:actions>
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <!-- Header Content -->
+        <uxap:headerContent>
+            <HBox wrap="Wrap">
+                <VBox class="sapUiSmallMarginEnd">
+                    <Label text="Customer Number"/>
+                    <ObjectIdentifier
+                        title="{detailData>/kunnr}"
+                        text="Customer"/>
+                </VBox>
+                <VBox class="sapUiSmallMarginEnd">
+                    <Label text="Material Number"/>
+                    <ObjectIdentifier
+                        title="{detailData>/kdmat}"
+                        text="Material"/>
+                </VBox>
+                <VBox class="sapUiSmallMarginEnd">
+                    <Label text="Status"/>
+                    <ObjectStatus 
+                        text="{detailData>/statusText}" 
+                        state="{path: 'detailData>/status', formatter: '.formatStatus'}"
+                        icon="sap-icon://status-in-process"/>
+                </VBox>
+                <VBox class="sapUiSmallMarginEnd">
+                    <Label text="Created By"/>
+                    <Text text="{detailData>/ernam}"/>
+                </VBox>
+                <VBox class="sapUiSmallMarginEnd">
+                    <Label text="Last Changed By"/>
+                    <Text text="{detailData>/last_changed_by_user}"/>
+                </VBox>
+            </HBox>
+        </uxap:headerContent>
+
+        <!-- Sections -->
+        <uxap:sections>
+            
+            <!-- Customer & Organization Section -->
+            <uxap:ObjectPageSection title="Customer &amp; Organization Information" titleUppercase="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection>
+                        <uxap:blocks>
+                            <form:Form editable="{detailData>/editMode}">
+                                <form:layout>
+                                    <form:ResponsiveGridLayout
+                                        labelSpanXL="4"
+                                        labelSpanL="4"
+                                        labelSpanM="4"
+                                        labelSpanS="12"
+                                        adjustLabelSpan="false"
+                                        emptySpanXL="0"
+                                        emptySpanL="0"
+                                        emptySpanM="0"
+                                        emptySpanS="0"
+                                        columnsXL="2"
+                                        columnsL="2"
+                                        columnsM="1"
+                                        singleContainerFullSize="false"/>
+                                </form:layout>
+                                <form:formContainers>
+                                    <form:FormContainer>
+                                        <form:formElements>
+                                            <form:FormElement label="Customer Number">
+                                                <form:fields>
+                                                    <Input 
+                                                        value="{detailData>/kunnr}"
+                                                        editable="false">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Sales Organization">
+                                                <form:fields>
+                                                    <Input 
+                                                        value="{detailData>/vkorg}"
+                                                        editable="false">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                        </form:formElements>
+                                    </form:FormContainer>
+                                    
+                                    <form:FormContainer>
+                                        <form:formElements>
+                                            <form:FormElement label="Location">
+                                                <form:fields>
+                                                    <Input 
+                                                        value="{detailData>/zzloc}"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Department">
+                                                <form:fields>
+                                                    <Input 
+                                                        value="{detailData>/zzdepartment}"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                        </form:formElements>
+                                    </form:FormContainer>
+                                </form:formContainers>
+                            </form:Form>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <!-- Material Information Section -->
+            <uxap:ObjectPageSection title="Material Information" titleUppercase="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection>
+                        <uxap:blocks>
+                            <form:Form editable="{detailData>/editMode}">
+                                <form:layout>
+                                    <form:ResponsiveGridLayout
+                                        labelSpanXL="4"
+                                        labelSpanL="4"
+                                        labelSpanM="4"
+                                        labelSpanS="12"
+                                        adjustLabelSpan="false"
+                                        emptySpanXL="0"
+                                        emptySpanL="0"
+                                        emptySpanM="0"
+                                        emptySpanS="0"
+                                        columnsXL="2"
+                                        columnsL="2"
+                                        columnsM="1"
+                                        singleContainerFullSize="false"/>
+                                </form:layout>
+                                <form:formContainers>
+                                    <form:FormContainer title="Basic Material Data">
+                                        <form:formElements>
+                                            <form:FormElement label="Material Number">
+                                                <form:fields>
+                                                    <Input 
+                                                        value="{detailData>/kdmat}"
+                                                        editable="false">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Material Description">
+                                                <form:fields>
+                                                    <TextArea 
+                                                        value="{detailData>/postx}"
+                                                        rows="2"
+                                                        maxLength="200"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </TextArea>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Material Usage">
+                                                <form:fields>
+                                                    <Input 
+                                                        value="{detailData>/zzmaterialusage}"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="EAN">
+                                                <form:fields>
+                                                    <Input 
+                                                        value="{detailData>/zzean11}"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                        </form:formElements>
+                                    </form:FormContainer>
+                                    
+                                    <form:FormContainer title="Packaging Details">
+                                        <form:formElements>
+                                            <form:FormElement label="Pack Quantity">
+                                                <form:fields>
+                                                    <StepInput 
+                                                        value="{detailData>/zzpack}"
+                                                        min="0"
+                                                        max="9999"
+                                                        step="1"
+                                                        width="100%"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </StepInput>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Unit of Measure">
+                                                <form:fields>
+                                                    <Input 
+                                                        value="{detailData>/zzuom}"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Warehouse Pack">
+                                                <form:fields>
+                                                    <StepInput 
+                                                        value="{detailData>/zzpack_whse}"
+                                                        min="0"
+                                                        max="9999"
+                                                        step="1"
+                                                        width="100%"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </StepInput>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement label="Size">
+                                                <form:fields>
+                                                    <Input 
+                                                        value="{detailData>/zzsize}"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                        </form:formElements>
+                                    </form:FormContainer>
+                                </form:formContainers>
+                            </form:Form>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <!-- Additional Information Section -->
+            <uxap:ObjectPageSection title="Additional Information" titleUppercase="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection>
+                        <uxap:blocks>
+                            <form:Form editable="{detailData>/editMode}">
+                                <form:layout>
+                                    <form:ResponsiveGridLayout
+                                        labelSpanXL="4"
+                                        labelSpanL="4"
+                                        labelSpanM="4"
+                                        labelSpanS="12"
+                                        adjustLabelSpan="false"
+                                        emptySpanXL="0"
+                                        emptySpanL="0"
+                                        emptySpanM="0"
+                                        emptySpanS="0"
+                                        columnsXL="1"
+                                        columnsL="1"
+                                        columnsM="1"
+                                        singleContainerFullSize="false"/>
+                                </form:layout>
+                                <form:formContainers>
+                                    <form:FormContainer>
+                                        <form:formElements>
+                                            <form:FormElement label="BDR Sub Category">
+                                                <form:fields>
+                                                    <Input 
+                                                        value="{detailData>/zzbdrsub}"
+                                                        maxLength="100"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                        </form:formElements>
+                                    </form:FormContainer>
+                                </form:formContainers>
+                            </form:Form>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+        </uxap:sections>
+
+        <!-- Footer (only visible in edit mode) -->
+        <uxap:footer>
+            <OverflowToolbar visible="{detailData>/editMode}">
+                <ToolbarSpacer/>
+                <Button text="Save Changes" type="Emphasized" icon="sap-icon://save" press="onSave"/>
+                <Button text="Cancel" icon="sap-icon://decline" press="onCancelEdit"/>
+            </OverflowToolbar>
+        </uxap:footer>
+        
+    </uxap:ObjectPageLayout>
+    
+</mvc:View>

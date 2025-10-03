@@ -1,0 +1,42 @@
+/* Tile Background Colors */
+.tileNeutral {
+    background-color: #E5E5E5 !important;
+}
+
+.tilePending {
+    background-color: #FFF4E5 !important;
+}
+
+.tileApproved {
+    background-color: #E5F5E5 !important;
+}
+
+.tileRejected {
+    background-color: #FFE5E5 !important;
+}
+
+/* Tile hover effects */
+.tileNeutral:hover {
+    background-color: #D0D0D0 !important;
+}
+
+.tilePending:hover {
+    background-color: #FFE8CC !important;
+}
+
+.tileApproved:hover {
+    background-color: #CCE6CC !important;
+}
+
+.tileRejected:hover {
+    background-color: #FFCCCC !important;
+}
+
+/* Make tile content more visible on colored backgrounds */
+.sapMGT .sapMGTHdrTxt {
+    font-weight: 600;
+}
+
+.sapMGT .sapMTileCntContent {
+    font-weight: 500;
+}

@@ -25,6 +25,15 @@ sap.ui.define([
             oDeviceModel.setDefaultBindingMode("OneWay");
             this.setModel(oDeviceModel, "device");
             
+             // Create empty listData model BEFORE router initialization
+            var oListDataModel = new JSONModel({
+                items: {
+                    data: [],
+                    length: 0
+                }
+            });
+            this.setModel(oListDataModel, "listData");
+  
             this.getRouter().initialize();
         }
     });

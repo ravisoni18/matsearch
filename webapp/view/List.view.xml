@@ -2,103 +2,507 @@
     controllerName="knmtapp.controller.List"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns:core="sap.ui.core">
-    <Page title="KNMT Request List" showNavButton="false">
-        <content>
-            <VBox>
-                <Toolbar>
-                    <Title text="Filters" level="H2"/>
-                </Toolbar>
-                <HBox wrap="Wrap">
-                    <VBox width="250px" class="sapUiSmallMargin">
-                        <Label text="Customer Number" labelFor="filterKunnr"/>
-                        <Input id="filterKunnr" placeholder="Enter Customer Number"/>
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.f">
+        
+    <Page title="KNMT Request List" showNavButton="false" class="sapUiResponsiveContentPadding">
+        <f:SidePanel 
+            id="filterSidePanel"
+            sidePanelWidth="20rem"
+            sidePanelPosition="Left"
+            ariaLabel="Filters">
+            
+            <f:mainContent> 
+                <f:DynamicPage id="dynamicPage">
+                    <f:title>
+                        <f:DynamicPageTitle>
+                            <f:heading>
+                                <Title text="KNMT Request Management"/>
+                            </f:heading>
+                            <f:actions>
+                                <Button 
+                                    text="Filters" 
+                                    icon="sap-icon://filter" 
+                                    press="onToggleFilterPanel"
+                                    type="Transparent"/>
+                                <Button 
+                                    text="Create" 
+                                    type="Emphasized" 
+                                    icon="sap-icon://add" 
+                                    press="onNavigateToCreate"/>
+                                <Button 
+                                    text="Refresh" 
+                                    icon="sap-icon://refresh" 
+                                    press="onRefresh"/>
+                            </f:actions>
+                        </f:DynamicPageTitle>
+                    </f:title>
+                    
+                    <f:content>
+                        <VBox>
+                            <!-- Analytics Tiles Section -->
+                            <HBox wrap="Wrap" class="sapUiSmallMarginBottom sapUiSmallMarginTop">
+                                <!-- Total Requests Tile -->
+                                <GenericTile
+                                    class="sapUiTinyMarginEnd sapUiTinyMarginBottom tileNeutral"
+                                    frameType="OneByHalf"
+                                    header="Requests"
+                                    subheader="All Status"
+                                    press="onTilePress">
+                                    <TileContent>
+                                        <NumericContent
+                                            value="{listData>/analytics/total}"
+                                            icon="sap-icon://documents"
+                                            valueColor="Neutral"/>
+                                    </TileContent>
+                                    <customData>
+                                        <core:CustomData key="status" value="ALL"/>
+                                    </customData>
+                                </GenericTile>
+                                
+                                <!-- Pending Requests Tile -->
+                                <GenericTile
+                                    class="sapUiTinyMarginEnd sapUiTinyMarginBottom tilePending"
+                                    header="Pending"
+                                    subheader="Awaiting Action"
+                                    frameType="OneByHalf"
+                                    press="onTilePress">
+                                    <TileContent>
+                                        <NumericContent
+                                            value="{listData>/analytics/pending}"
+                                            icon="sap-icon://pending"
+                                            valueColor="Critical"/>
+                                    </TileContent>
+                                    <customData>
+                                        <core:CustomData key="status" value="P"/>
+                                    </customData>
+                                </GenericTile>
+                                
+                                <!-- Approved Requests Tile -->
+                                <GenericTile
+                                    class="sapUiTinyMarginEnd sapUiTinyMarginBottom tileApproved"
+                                    header="Completed"
+                                    subheader="Completed"
+                                    frameType="OneByHalf"
+                                    press="onTilePress">
+                                    <TileContent>
+                                        <NumericContent
+                                            value="{listData>/analytics/completed}"
+                                            icon="sap-icon://accept"
+                                            valueColor="Good"/>
+                                    </TileContent>
+                                    <customData>
+                                        <core:CustomData key="status" value="C"/>
+                                    </customData>
+                                </GenericTile>
+                                
+                                <!-- Rejected Requests Tile -->
+                                <GenericTile
+                                    class="sapUiTinyMarginEnd sapUiTinyMarginBottom tileRejected"
+                                    header="Deleted"
+                                    subheader="Not Approved"
+                                    frameType="OneByHalf"
+                                    press="onTilePress">
+                                    <TileContent>
+                                        <NumericContent
+                                            value="{listData>/analytics/rejected}"
+                                            icon="sap-icon://decline"
+                                            valueColor="Error"/>
+                                    </TileContent>
+                                    <customData>
+                                        <core:CustomData key="status" value="R"/>
+                                    </customData>
+                                </GenericTile>
+                            </HBox>
+
+                            <!-- Table -->
+                            <Table 
+                                id="requestTable" 
+                                items="{listData>/items/data}"
+                                growing="true"
+                                growingThreshold="20"
+                                growingScrollToLoad="true"
+                                sticky="ColumnHeaders,HeaderToolbar"
+                                alternateRowColors="true"
+                                fixedLayout="false"
+                              >
+                                
+                                <headerToolbar>
+                                    <OverflowToolbar design="Transparent">
+                                        <Title text="KNMT Requests" level="H2"/>
+                                        <core:Icon src="sap-icon://group" class="sapUiTinyMarginBegin" color="#5E696E"/>
+                                        <Text text="{listData>/items/length} Items" class="sapUiTinyMarginBegin"/>
+                                        <ToolbarSpacer/>
+                                        <SearchField 
+                                            id="searchField"
+                                            width="15rem"
+                                            placeholder="Quick Search"
+                                            search="onQuickSearch"/>
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                
+                                <columns>
+                                    <Column width="10rem" minScreenWidth="Tablet" demandPopin="true" hAlign="Begin">
+                                        <Text text="Customer"/>
+                                    </Column>
+                                    <Column width="8rem" minScreenWidth="Desktop" demandPopin="true" hAlign="Begin">
+                                        <Text text="Sales Org"/>
+                                    </Column>
+                                    <Column width="10rem" hAlign="Begin">
+                                        <Text text="Material"/>
+                                    </Column>
+                                       <Column width="8rem" hAlign="Begin">
+                                        <Text text="UOM"/>
+                                    </Column>
+                                    <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin">
+                                        <Text text="Description"/>
+                                    </Column>
+
+                                       <Column minScreenWidth="Tablet" demandPopin="true" hAlign="Begin">
+                                        <Text text="BDR SUB"/>
+                                    </Column>
+                                    <Column width="10rem" minScreenWidth="Desktop" demandPopin="true" hAlign="Begin">
+                                        <Text text="EAN"/>
+                                    </Column>
+                                    <Column width="8rem" hAlign="Center">
+                                        <Text text="Status"/>
+                                    </Column>
+                                    <Column width="6rem" minScreenWidth="Desktop" demandPopin="true" hAlign="Center">
+                                        <Text text="Location"/>
+                                    </Column>
+                                    <Column width="9rem" minScreenWidth="Desktop" demandPopin="true" hAlign="Begin">
+                                        <Text text="Created By"/>
+                                    </Column>
+                                    <Column width="9rem" minScreenWidth="Desktop" demandPopin="true" hAlign="Begin">
+                                        <Text text="Changed By"/>
+                                    </Column>
+                                </columns>
+                                
+                                <items>
+                                    <ColumnListItem 
+                                        type="Navigation" 
+                                        press="onItemPress"
+                                        highlight="{= ${listData>status} === 'P' ? 'Warning' : ${listData>status} === 'A' ? 'Success' : ${listData>status} === 'R' ? 'Error' : 'None' }">
+                                        <cells>
+                                            <!-- Customer Cell -->
+                                            <VBox>
+                                                <ObjectIdentifier 
+                                                    title="{listData>kunnr}" 
+                                                    titleActive="false" 
+                                                   />
+                                            
+                                            </VBox>
+                                            
+                                            <!-- Sales Org Cell -->
+                                            <VBox>
+                                                <Text text="{listData>vkorg}" class="sapUiSmallText" wrapping="false"/>
+                                            </VBox>
+                                            
+                                            <!-- Material Cell -->
+                                            <VBox>
+                                                <ObjectIdentifier 
+                                                    title="{listData>kdmat}" 
+                                                    titleActive="false" 
+                                                   />
+                                            
+                                            </VBox>
+
+
+
+
+                                                     <!-- UOM Cell -->
+                                            <VBox>
+                                               
+                                                <HBox class="sapUiTinyMarginTop">
+                                                    <core:Icon 
+                                                        size="0.875rem" 
+                                                        color="#5E696E" 
+                                                        class="sapUiTinyMarginEnd"/>
+                                                    <Text text="{listData>zzuom}" class="sapUiTinyText"/>
+                                                </HBox>
+                                            </VBox>
+
+
+
+                                            
+                                            <!-- Description Cell -->
+                                            <VBox>
+                                                <Text 
+                                                    text="{listData>postx}" 
+                                                    maxLines="2" 
+                                                    wrapping="true" 
+                                                    class="sapUiSmallText"/>
+                                                <!-- <HBox 
+                                                    class="sapUiTinyMarginTop" 
+                                                    visible="{= !!${listData>zzbdrsub} }">
+                                                    <core:Icon 
+                                                        src="sap-icon://tag" 
+                                                        size="0.75rem" 
+                                                        color="#91C8F6" 
+                                                        class="sapUiTinyMarginEnd"/>
+                                                    <Text 
+                                                        text="{listData>zzbdrsub}" 
+                                                        class="sapUiTinyText" 
+                                                        maxLines="1"/>
+                                                </HBox> -->
+                                            </VBox>
+
+
+
+                                             <!-- KDR Sub Cell -->
+                                            <VBox>
+                                                <!-- <Text 
+                                                    text="{listData>postx}" 
+                                                    maxLines="2" 
+                                                    wrapping="true" 
+                                                    class="sapUiSmallText"/> -->
+                                                <HBox 
+                                                    class="sapUiTinyMarginTop" 
+                                                    visible="{= !!${listData>zzbdrsub} }">
+                                                    <!-- <core:Icon 
+                                                        src="sap-icon://tag" 
+                                                        size="0.75rem" 
+                                                        color="#91C8F6" 
+                                                        class="sapUiTinyMarginEnd"/> -->
+                                                    <Text 
+                                                        text="{listData>zzbdrsub}" 
+                                                        class="sapUiTinyText" 
+                                                        maxLines="1"/>
+                                                </HBox>
+                                            </VBox>
+                                            
+                                            <!-- EAN Cell -->
+                                            <VBox>
+                                                <Text 
+                                                    text="{listData>zzean11}" 
+                                                    class="sapUiSmallText" 
+                                                    wrapping="false"/>
+                                                <!-- <HBox class="sapUiTinyMarginTop">
+                                                    <core:Icon 
+                                                        src="sap-icon://bar-code" 
+                                                        size="0.875rem" 
+                                                        color="#5E696E" 
+                                                        class="sapUiTinyMarginEnd"/>
+                                                    <Text text="Barcode" class="sapUiTinyText"/>
+                                                </HBox> -->
+                                            </VBox>
+                                            
+                                            <!-- Status Cell -->
+                                            <VBox alignItems="Center">
+                                                <ObjectStatus 
+                                                    text="{listData>statusText}"
+                                                    state="{path: 'listData>status', formatter: '.formatStatus'}"
+                                                    icon="{= ${listData>status} === 'P' ? 'sap-icon://pending' : ${listData>status} === 'A' ? 'sap-icon://accept' : ${listData>status} === 'R' ? 'sap-icon://decline' : 'sap-icon://question-mark' }"/>
+                                            </VBox>
+                                            
+                                            <!-- Location Cell -->
+                                            <VBox alignItems="Center">
+                                                <!-- <core:Icon 
+                                                    src="sap-icon://map" 
+                                                    size="1rem" 
+                                                    color="#5E696E"/> -->
+                                                <Text 
+                                                    text="{listData>zzloc}" 
+                                                    class="sapUiSmallMarginTop sapUiSmallText"/>
+                                            </VBox>
+                                            
+                                            <!-- Created By Cell -->
+                                            <VBox>
+                                                <HBox>
+                                                    <core:Icon 
+                                                        src="sap-icon://person-placeholder" 
+                                                        size="0.875rem" 
+                                                        color="#5E696E" 
+                                                        class="sapUiTinyMarginEnd"/>
+                                                    <Text 
+                                                        text="{listData>ernam}" 
+                                                        class="sapUiSmallText"/>
+                                                </HBox>
+                                                <Text 
+                                                    text="{path: 'listData>createdatetime', formatter: '.formatDate'}" 
+                                                    class="sapUiTinyMarginTop sapUiTinyText"/>
+                                            </VBox>
+                                            
+                                            <!-- Changed By Cell -->
+                                            <VBox>
+                                                <HBox>
+                                                    <core:Icon 
+                                                        src="sap-icon://edit" 
+                                                        size="0.875rem" 
+                                                        color="#5E696E" 
+                                                        class="sapUiTinyMarginEnd"/>
+                                                    <Text 
+                                                        text="{listData>last_changed_by_user}" 
+                                                        class="sapUiSmallText"/>
+                                                </HBox>
+                                                <Text 
+                                                    text="{path: 'listData>changedatetime', formatter: '.formatDate'}" 
+                                                    class="sapUiTinyMarginTop sapUiTinyText"/>
+                                            </VBox>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </VBox>
+                    </f:content>
+                </f:DynamicPage>
+            </f:mainContent>
+            
+            <!-- Side Panel Items -->
+            <f:items>
+                <!-- Filter Panel -->
+                <f:SidePanelItem icon="sap-icon://filter" text="Filters">
+                    <ScrollContainer height="100%" vertical="true">
+                        <VBox class="sapUiSmallMargin">
+                            <Toolbar design="Solid">
+                                <Title text="Filter Criteria" level="H3"/>
+                                <ToolbarSpacer/>
+                                <Button 
+                                    icon="sap-icon://decline" 
+                                    press="onToggleFilterPanel" 
+                                    tooltip="Close"/>
+                            </Toolbar>
+                            
+                            <VBox class="sapUiSmallMarginTop">
+                                <!-- Customer Number Filter -->
+                                <Label text="Customer Number" class="sapUiSmallMarginTop"/>
+                                <Input 
+                                    id="filterKunnr" 
+                                    placeholder="Enter Customer Number" 
+                                    submit="onSearch"/>
+                                
+                                <!-- Sales Organization Filter -->
+                                <Label text="Sales Organization" class="sapUiSmallMarginTop"/>
+                                <Input 
+                                    id="filterVkorg" 
+                                    placeholder="Enter Sales Org" 
+                                    submit="onSearch"/>
+                                
+                                <!-- Material Number Filter -->
+                                <Label text="Material Number" class="sapUiSmallMarginTop"/>
+                                <Input 
+                                    id="filterKdmat" 
+                                    placeholder="Enter Material Number" 
+                                    submit="onSearch"/>
+                                
+                                <!-- Material Description Filter -->
+                                <Label text="Material Description" class="sapUiSmallMarginTop"/>
+                                <Input 
+                                    id="filterPostx" 
+                                    placeholder="Enter Description" 
+                                    submit="onSearch"/>
+                                
+                                <!-- EAN Filter -->
+                                <Label text="EAN Number" class="sapUiSmallMarginTop"/>
+                                <Input 
+                                    id="filterZzean11" 
+                                    placeholder="Enter EAN" 
+                                    submit="onSearch"/>
+                                
+                                <!-- Location Filter -->
+                                <Label text="Location" class="sapUiSmallMarginTop"/>
+                                <Input 
+                                    id="filterZzloc" 
+                                    placeholder="Enter Location" 
+                                    submit="onSearch"/>
+                                
+                                <!-- Created By Filter -->
+                                <Label text="Created By" class="sapUiSmallMarginTop"/>
+                                <Input 
+                                    id="filterErnam" 
+                                    placeholder="Enter Creator" 
+                                    submit="onSearch"/>
+                                
+                                <!-- Status Filter -->
+                                <Label text="Status" class="sapUiSmallMarginTop"/>
+                                <Select id="filterStatus" width="100%" change="onSearch">
+                                    <items>
+                                        <core:Item key="" text="All"/>
+                                        <core:Item key="P" text="Pending"/>
+                                        <core:Item key="A" text="Approved"/>
+                                        <core:Item key="R" text="Rejected"/>
+                                    </items>
+                                </Select>
+                                
+                                <!-- Created Date Filter -->
+                                <Label text="Created Date" class="sapUiSmallMarginTop"/>
+                                <DynamicDateRange 
+                                    id="filterCreatedDate"
+                                    width="100%"
+                                    change="onSearch"/>
+                                
+                                <!-- Changed Date Filter -->
+                                <Label text="Changed Date" class="sapUiSmallMarginTop"/>
+                                <DynamicDateRange 
+                                    id="filterChangedDate"
+                                    width="100%"
+                                    change="onSearch"/>
+                                
+                                <!-- Action Buttons -->
+                                <Toolbar class="sapUiSmallMarginTop">
+                                    <ToolbarSpacer/>
+                                    <Button 
+                                        text="Apply" 
+                                        type="Emphasized" 
+                                        icon="sap-icon://search" 
+                                        press="onSearch"/>
+                                    <Button 
+                                        text="Clear" 
+                                        icon="sap-icon://clear-filter" 
+                                        press="onReset"/>
+                                </Toolbar>
+                            </VBox>
+                        </VBox>
+                    </ScrollContainer>
+                </f:SidePanelItem>
+                
+                <!-- Export Panel -->
+                <f:SidePanelItem icon="sap-icon://excel-attachment" text="Export">
+                    <VBox class="sapUiSmallMargin">
+                        <Title text="Export Options" level="H3" class="sapUiSmallMarginBottom"/>
+                        <Button 
+                            text="Export to Excel" 
+                            icon="sap-icon://excel-attachment" 
+                            press="onExportToExcel" 
+                            width="100%"
+                            class="sapUiTinyMarginBottom"/>
+                        <Button 
+                            text="Export to PDF" 
+                            icon="sap-icon://pdf-attachment" 
+                            press="onExportToPDF" 
+                            width="100%"
+                            class="sapUiTinyMarginBottom"/>
+                        <Button 
+                            text="Export to CSV" 
+                            icon="sap-icon://attachment" 
+                            press="onExportToCSV" 
+                            width="100%"/>
                     </VBox>
-                    <VBox width="250px" class="sapUiSmallMargin">
-                        <Label text="Sales Organization" labelFor="filterVkorg"/>
-                        <Input id="filterVkorg" placeholder="Enter Sales Org"/>
-                    </VBox>
-                    <VBox width="250px" class="sapUiSmallMargin">
-                        <Label text="Status" labelFor="filterStatus"/>
-                        <Select id="filterStatus">
+                </f:SidePanelItem>
+                
+                <!-- Settings Panel -->
+                <f:SidePanelItem icon="sap-icon://action-settings" text="Settings">
+                    <VBox class="sapUiSmallMargin">
+                        <Title text="Display Settings" level="H3" class="sapUiSmallMarginBottom"/>
+                        <Label text="Items per Page"/>
+                        <Select id="itemsPerPage" selectedKey="20" change="onChangeItemsPerPage">
                             <items>
-                                <core:Item key="" text="All"/>
-                                <core:Item key="P" text="Pending"/>
-                                <core:Item key="A" text="Approved"/>
-                                <core:Item key="R" text="Rejected"/>
+                                <core:Item key="10" text="10"/>
+                                <core:Item key="20" text="20"/>
+                                <core:Item key="50" text="50"/>
+                                <core:Item key="100" text="100"/>
                             </items>
                         </Select>
+                        
+                        <Label text="Compact Mode" class="sapUiSmallMarginTop"/>
+                        <Switch 
+                            id="compactModeSwitch"
+                            state="false"
+                            change="onToggleCompactMode"/>
                     </VBox>
-                    <VBox width="250px" class="sapUiSmallMargin">
-                        <Label text="Material Number" labelFor="filterKdmat"/>
-                        <Input id="filterKdmat" placeholder="Enter Material Number"/>
-                    </VBox>
-                </HBox>
-                <Toolbar>
-                    <ToolbarSpacer/>
-                    <Button text="Search" type="Emphasized" press="onSearch"/>
-                    <Button text="Clear" press="onClear"/>
-                </Toolbar>
-
-                <Table id="requestTable" 
-                       items="{listData>/items/data}"
-                       mode="SingleSelectMaster">
-                    <headerToolbar>
-                        <Toolbar>
-                            <Title text="Requests" level="H2"/>
-                            <ToolbarSpacer/>
-                            <Button text="Create" type="Emphasized" icon="sap-icon://add" press="onNavigateToCreate"/>
-                            <Button text="Refresh" icon="sap-icon://refresh" press="onRefresh"/>
-                        </Toolbar>
-                    </headerToolbar>
-                    <columns>
-                        <Column minScreenWidth="Tablet" demandPopin="true">
-                            <Text text="Customer"/>
-                        </Column>
-                        <Column minScreenWidth="Desktop" demandPopin="true">
-                            <Text text="Sales Org"/>
-                        </Column>
-                        <Column>
-                            <Text text="Material"/>
-                        </Column>
-                        <Column minScreenWidth="Tablet" demandPopin="true">
-                            <Text text="Description"/>
-                        </Column>
-                        <Column minScreenWidth="Desktop" demandPopin="true">
-                            <Text text="EAN"/>
-                        </Column>
-                        <Column>
-                            <Text text="Status"/>
-                        </Column>
-                        <Column minScreenWidth="Desktop" demandPopin="true">
-                            <Text text="Location"/>
-                        </Column>
-                        <Column minScreenWidth="Desktop" demandPopin="true">
-                            <Text text="Created By"/>
-                        </Column>
-                        <Column minScreenWidth="Desktop" demandPopin="true">
-                            <Text text="Changed By"/>
-                        </Column>
-                    </columns>
-                    <items>
-                        <ColumnListItem>
-                            <cells>
-                                <Text text="{listData>kunnr}"/>
-                                <Text text="{listData>vkorg}"/>
-                                <Text text="{listData>kdmat}"/>
-                                <Text text="{listData>postx}"/>
-                                <Text text="{listData>zzean11}"/>
-                                <ObjectStatus 
-                                    text="{listData>statusText}"
-                                    state="{path: 'status', formatter: '.formatStatus'}"/>
-                                <Text text="{listData>zzloc}"/>
-                                <Text text="{listData>ernam}"/>
-                                <Text text="{listData>last_changed_by_user}"/>
-                            </cells>
-                        </ColumnListItem>
-                    </items>
-                </Table>
-            </VBox>
-        </content>
+                </f:SidePanelItem>
+            </f:items>
+        </f:SidePanel>
     </Page>
 </mvc:View>

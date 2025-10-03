@@ -1,30 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title></title>
-	<style>
-		html, body, body > div, #container, #container-uiarea {
-			height: 100%;
-		}
-	</style>
-	<script
-			id="sap-ui-bootstrap"
-			src="resources/sap-ui-core.js"
-			data-sap-ui-theme="sap_fiori_3"
-			data-sap-ui-resourceroots='{
-            "knmtapp": "."
-        }'
-			data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
-			data-sap-ui-compatVersion="edge"
-			data-sap-ui-async="true"
-			data-sap-ui-preload="async"
-			data-sap-ui-libs="sap.m, sap.ui.layout, sap.uxap">
-	</script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNMT Request Management</title>
+    <link rel="stylesheet" href="webapp/css/style.css">
+    <script id="sap-ui-bootstrap"
+        src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+        data-sap-ui-theme="sap_horizon"
+        data-sap-ui-libs="sap.m, sap.ui.layout, sap.uxap, sap.ui.mdc,sap.f"
+        data-sap-ui-compatVersion="edge"
+        data-sap-ui-async="true"
+        data-sap-ui-resourceroots='{
+            "knmtapp": "./"
+        }'>
+    </script>
+    <script>
+        sap.ui.getCore().attachInit(function() {
+            sap.ui.require(["sap/ui/core/ComponentSupport"]);
+        });
+    </script>
 </head>
-<body class="sapUiBody sapUiSizeCompact" id="content">
-<div data-sap-ui-component data-name="knmtapp" data-id="container" data-settings='{"id" : "knmtapp"}' data-handle-validation="true"></div>
+<body class="sapUiBody" id="content">
+    <div data-sap-ui-component 
+         data-name="knmtapp" 
+         data-id="container" 
+         data-settings='{"id" : "knmtapp"}'>
+    </div>
 </body>
 </html>

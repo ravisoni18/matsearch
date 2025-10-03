@@ -1,0 +1,171 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout">
+    
+    <Dialog
+        id="createDialog"
+        title="Create New KNMT Request"
+        contentWidth="900px"
+        contentHeight="auto"
+        resizable="true"
+        draggable="true"
+        afterClose="onDialogClose">
+        
+        <content>
+            <VBox class="sapUiSmallMargin">
+                
+                <!-- Single Form with All Fields -->
+                <form:Form editable="true">
+                    <form:layout>
+                        <form:ResponsiveGridLayout
+                            labelSpanXL="3" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                            emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                            columnsXL="3" columnsL="2" columnsM="2" columnsS="1"
+                            singleContainerFullSize="false"/>
+                    </form:layout>
+                    <form:formContainers>
+                        <!-- Container 1: Key Fields -->
+                        <form:FormContainer title="Key Information">
+                            <form:formElements>
+                                <form:FormElement label="Customer *">
+                                    <form:fields>
+                                        <Input id="createKunnr" 
+                                               placeholder="Customer Number"
+                                               required="true"
+                                               valueState="None"/>
+                                    </form:fields>
+                                </form:FormElement>
+                                
+                                <form:FormElement label="Sales Org *">
+                                    <form:fields>
+                                        <Input id="createVkorg" 
+                                               placeholder="Sales Organization"
+                                               required="true"
+                                               valueState="None"/>
+                                    </form:fields>
+                                </form:FormElement>
+                                
+                                <form:FormElement label="Material *">
+                                    <form:fields>
+                                        <Input id="createKdmat" 
+                                               placeholder="Material Number"
+                                               required="true"
+                                               valueState="None"/>
+                                    </form:fields>
+                                </form:FormElement>
+                                
+                                <form:FormElement label="Description">
+                                    <form:fields>
+                                        <Input id="createPostx" 
+                                               placeholder="Material Description"
+                                               maxLength="200"/>
+                                    </form:fields>
+                                </form:FormElement>
+                            </form:formElements>
+                        </form:FormContainer>
+                        
+                        <!-- Container 2: Location & Packaging -->
+                        <form:FormContainer title="Location &amp; Packaging">
+                            <form:formElements>
+                                <form:FormElement label="Location">
+                                    <form:fields>
+                                        <Input id="createZzloc" 
+                                               placeholder="Location Code" maxLength="3"/>
+                                    </form:fields>
+                                </form:FormElement>
+                                
+                                <form:FormElement label="Department">
+                                    <form:fields>
+                                        <Input id="createZzdepartment" 
+                                               placeholder="Department" maxLength="3"/>
+                                    </form:fields>
+                                </form:FormElement>
+                                
+                                <form:FormElement label="EAN">
+                                    <form:fields>
+                                        <Input id="createZzean11" 
+                                               placeholder="EAN/Barcode" maxLength="18"/>
+                                    </form:fields>
+                                </form:FormElement>
+                                
+                                <form:FormElement label="UOM">
+                                    <form:fields>
+                                        <Select id="createZzuom" selectedKey="CS">
+                                            <items>
+                                                <core:Item key="CS" text="Case"/>
+                                                <core:Item key="EA" text="Each"/>
+                                                <core:Item key="PC" text="Piece"/>
+                                                <core:Item key="BX" text="Box"/>
+                                                <core:Item key="PK" text="Pack"/>
+                                            </items>
+                                        </Select>
+                                    </form:fields>
+                                </form:FormElement>
+                            </form:formElements>
+                        </form:FormContainer>
+                        
+                        <!-- Container 3: Additional Details -->
+                        <form:FormContainer title="Additional Details">
+                            <form:formElements>
+                                <form:FormElement label="Usage">
+                                    <form:fields>
+                                        <Select id="createZzmaterialusage">
+                                            <items>
+                                                <core:Item key="" text="Select"/>
+                                                <core:Item key="A" text="Type A"/>
+                                                <core:Item key="B" text="Type B"/>
+                                                <core:Item key="C" text="Type C"/>
+                                            </items>
+                                        </Select>
+                                    </form:fields>
+                                </form:FormElement>
+                                
+                                <form:FormElement label="Pack Qty">
+                                    <form:fields>
+                                        <StepInput id="createZzpack"
+                                                   min="0" max="9999" step="1" value="1"
+                                                   width="100%"/>
+                                    </form:fields>
+                                </form:FormElement>
+                                
+                                <form:FormElement label="Whse Pack">
+                                    <form:fields>
+                                        <StepInput id="createZzpack_whse"
+                                                   min="0" max="9999" step="1" value="1"
+                                                   width="100%"/>
+                                    </form:fields>
+                                </form:FormElement>
+                                
+                                <form:FormElement label="Size">
+                                    <form:fields>
+                                        <Input id="createZzsize" 
+                                               placeholder="e.g., CS,L, XL, 10oz"/>
+                                    </form:fields>
+                                </form:FormElement>
+                                
+                                <form:FormElement label="BDR Sub">
+                                    <form:fields>
+                                        <Input id="createZzbdrsub" 
+                                               placeholder="BDR Sub Category"
+                                               maxLength="100"/>
+                                    </form:fields>
+                                </form:FormElement>
+                            </form:formElements>
+                        </form:FormContainer>
+                    </form:formContainers>
+                </form:Form>
+                
+            </VBox>
+        </content>
+        
+        <beginButton>
+            <Button text="Create" type="Emphasized" icon="sap-icon://save" press="onCreateRequest"/>
+        </beginButton>
+        <endButton>
+            <Button text="Cancel" press="onCancelCreate"/>
+        </endButton>
+    </Dialog>
+    
+</core:FragmentDefinition>
