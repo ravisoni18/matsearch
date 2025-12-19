@@ -1,0 +1,104 @@
+<mvc:View
+    controllerName="knmtapp.controller.Register"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    
+    <Page 
+        showNavButton="true"
+        navButtonPress="onNavBack"
+        title=""
+        class="porkyLoginPage">
+        <content>
+            <FlexBox
+                alignItems="Center"
+                justifyContent="Center"
+                height="100%">
+                <VBox
+                    alignItems="Center"
+                    class="porkyLoginBox">
+                    
+                    <!-- Porky Logo and Branding -->
+                    <VBox alignItems="Center" class="sapUiMediumMarginBottom porkyBrandingSection">
+                        <!-- Using the bouncing ball image from utils folder -->
+                        <Image 
+                            src="utils/EmailSignature2.jpg" 
+                            width="70px" 
+                            height="70px"
+                            class="porkyLogoImage" />
+                        
+                        <Title 
+                            text="Create Your Account" 
+                            level="H1" 
+                            class="porkyTitle"/>
+                        <Text 
+                            text="Join Porky to get started" 
+                            class="porkyWelcomeText"/>
+                    </VBox>
+                    
+                    <!-- Register Form -->
+                    <VBox width="100%" class="sapUiSmallMarginTop">
+                        <Input
+                            id="nameInput"
+                            value="{register>/name}"
+                            placeholder="Full Name"
+                            valueState="{register>/nameState}"
+                            valueStateText="{register>/nameStateText}"
+                            width="100%"
+                            class="porkyInput sapUiSmallMarginBottom"/>
+                        
+                        <Input
+                            id="emailInput"
+                            value="{register>/email}"
+                            placeholder="Email Address"
+                            type="Email"
+                            valueState="{register>/emailState}"
+                            valueStateText="{register>/emailStateText}"
+                            width="100%"
+                            class="porkyInput sapUiSmallMarginBottom"/>
+                        
+                        <Input
+                            id="passwordInput"
+                            value="{register>/password}"
+                            placeholder="Password (min 6 characters)"
+                            type="Password"
+                            valueState="{register>/passwordState}"
+                            valueStateText="{register>/passwordStateText}"
+                            width="100%"
+                            class="porkyInput sapUiSmallMarginBottom"/>
+                        
+                        <Input
+                            id="confirmPasswordInput"
+                            value="{register>/confirmPassword}"
+                            placeholder="Confirm Password"
+                            type="Password"
+                            valueState="{register>/confirmPasswordState}"
+                            valueStateText="{register>/confirmPasswordStateText}"
+                            submit="onRegister"
+                            width="100%"
+                            class="porkyInput"/>
+                    </VBox>
+                    
+                    <!-- Register Button -->
+                    <Button
+                        text="Create Account"
+                        type="Emphasized"
+                        width="100%"
+                        press="onRegister"
+                        class="porkyPrimaryButton"/>
+                    
+                    <!-- Login Link -->
+                    <HBox class="porkyRegisterSection">
+                        <Text text="Already have an account? " class="porkyRegisterText"/>
+                        <Link
+                            text="Sign In"
+                            press="onNavToLogin"
+                            class="porkyLinkBold"/>
+                    </HBox>
+                    
+                </VBox>
+            </FlexBox>
+        </content>
+    </Page>
+</mvc:View>

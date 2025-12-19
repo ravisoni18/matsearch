@@ -1,0 +1,137 @@
+<mvc:View
+    controllerName="knmtapp.controller.Login"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    
+    <Page showHeader="false" class="porkyLoginPage" enableScrolling="false" showFooter="false" showSubHeader="false">
+        <content>
+            <!-- Header Title at the top -->
+            <VBox width="100%" alignItems="Center" class="porkyHeaderSection">
+                <Title
+                    text="Welcome to Albertsons K&amp;B ↔ Porky Item Cross Reference Online Access"
+                    level="H1"
+                    class="porkyPageHeader"
+                />
+            </VBox>
+            
+            <FlexBox
+                justifyContent="Center"
+                height="calc(100% - 80px)">
+                <VBox
+                    alignItems="Center"
+                    class="porkyLoginBox sapUiMediumMarginBottom"
+                    width="500px">
+                    
+                    <!-- Porky Logo and Branding -->
+                    <VBox alignItems="Center" class="sapuiMediumMarginBottom">
+                        <!-- Using the bouncing ball image from utils folder -->
+                        <Image 
+                            src="utils/EmailSignature2.jpg" 
+                           
+                           />
+                        
+                        
+                        <!-- <Text 
+                            text="K&amp;B ↔ CIC to VPC Item Cross Reference" 
+                            class="porkySubtitle"/> -->
+                      
+                    </VBox>
+                    
+                    <!-- Login Form -->
+                    <VBox width="100%" class="">
+                          <Title 
+                            text="Sign in with your email address" 
+                            class=" sapUiSmallMarginBottom sapUiSmallMarginTop" design="Bold" />
+                             <Text 
+                            text="Email Address:" 
+                            class="porkyWelcomeText sapUiTinyMarginBottom"/>
+                        <Input
+                            id="emailInput"
+                            value="{login>/email}"
+                            placeholder="Email Address"
+                            type="Email"
+                            valueState="{login>/emailState}"
+                            valueStateText="{login>/emailStateText}"
+                            submit="onLogin"
+                            width="100%"
+                            class="porkyInput sapUiSmallMarginBottom"/>
+                         <Text 
+                            text="Password:" 
+                            class="porkyWelcomeText sapUiTinyMarginBottom"/>
+                        <Input
+                            id="passwordInput"
+                            value="{login>/password}"
+                            placeholder="Password"
+                            type="Password"
+                            valueState="{login>/passwordState}"
+                            valueStateText="{login>/passwordStateText}"
+                            submit="onLogin"
+                            width="100%"
+                            class="porkyInput"/>
+                    </VBox>
+                    
+                    <!-- Forgot Password Link -->
+                    <FlexBox width="100%" justifyContent="End" class="sapUiTinyMarginTop">
+                        <Link
+                            text="Forgot Password?"
+                            press="onForgotPassword"
+                            class="porkyLink"/>
+                    </FlexBox>
+                    
+                    <!-- Login Button -->
+                     <HBox width="100%" justifyContent="SpaceAround" fitContainer="true"  renderType="Bare">
+                    <Button
+                       
+                        text="Sign In"
+                        type="Emphasized"
+                        width="100%"
+                        press="onLogin"
+                        class="porkyPrimaryButton"/>
+                        </HBox>
+                    
+                    <!-- Divider -->
+                    <FlexBox 
+                        width="100%" 
+                        alignItems="Center" 
+                        justifyContent="Center"
+                        class="porkyDivider">
+                        <core:HTML content="&lt;div class='dividerLine'&gt;&lt;/div&gt;"/>
+                        <Text text="OR" class="dividerText"/>
+                        <core:HTML content="&lt;div class='dividerLine'&gt;&lt;/div&gt;"/>
+                    </FlexBox>
+                    
+                    <!-- Social Sign In Buttons -->
+                      <HBox width="100%" justifyContent="SpaceAround" fitContainer="true"  renderType="Bare">
+                    <Button
+                        text="Continue with Google"
+                        icon="sap-icon://arobase"
+                        width="100%"
+                        press="onGoogleSignIn"
+                        class="porkySocialButton sapUiTinyMarginBottom"/>
+                    </HBox>
+                                          <HBox width="100%" justifyContent="SpaceAround" fitContainer="true"  renderType="Bare">
+
+                    <Button
+                        text="Continue with Microsoft"
+                        icon="sap-icon://official-service"
+                        width="100%"
+                        press="onMicrosoftSignIn"
+                        class="porkySocialButton"/>
+                    </HBox>
+                    <!-- Register Link -->
+                    <HBox class="porkyRegisterSection">
+                        <Text text="Don't have an account? " class="porkyRegisterText"/>
+                        <Link
+                            text="Sign Up"
+                            press="onRegister"
+                            class="porkyLinkBold"/>
+                    </HBox>
+                    
+                </VBox>
+            </FlexBox>
+        </content>
+    </Page>
+</mvc:View>

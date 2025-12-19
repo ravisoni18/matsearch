@@ -1,6 +1,7 @@
 <mvc:View
     controllerName="knmtapp.controller.Detail"
     xmlns="sap.m"
+      xmlns:m="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:form="sap.ui.layout.form"
     xmlns:core="sap.ui.core"
@@ -13,25 +14,48 @@
         
         <!-- Header Title -->
         <uxap:headerTitle>
+            
             <uxap:ObjectPageDynamicHeaderTitle>
-                <uxap:expandedHeading>
-                    <Title text="KNMT Request Details" wrapping="true"/>
-                </uxap:expandedHeading>
-                <uxap:snappedHeading>
-                    <Title text="KNMT Request - {detailData>/kunnr}" wrapping="true"/>
-                </uxap:snappedHeading>
+                
+               	<uxap:expandedHeading>
+					 <HBox class="sapUiSmallMarginEnd">
+                    <Label text="Request Status" class="sapUiSmallMarginEnd"/>
+                    <ObjectStatus 
+                        text="{detailData>/statusText}" 
+                        state="{path: 'detailData>/status', formatter: '.formatStatus'}"
+                        icon="sap-icon://status-in-process"/>
+                </HBox>
+				</uxap:expandedHeading>
+
+				<uxap:snappedHeading>
+					<m:FlexBox  fitContainer="true" alignItems="Center">
+						 <HBox class="sapUiSmallMarginEnd">
+                    <Label text="Request Status" class="sapUiSmallMarginEnd"/>
+                    <ObjectStatus 
+                        text="{detailData>/statusText}" 
+                        state="{path: 'detailData>/status', formatter: '.formatStatus'}"
+                        icon="sap-icon://status-in-process"/>
+                </HBox>
+					</m:FlexBox>
+				</uxap:snappedHeading>
                 <uxap:actions>
+                    
                     <Button 
                         text="{= ${detailData>/editMode} ? 'Save' : 'Edit'}" 
                         type="Emphasized" 
+                        visible="{= ${detailData>/trtyp} ==='L' ? false :  ${detailData>/status} ==='A'? false : true }"
                         icon="{= ${detailData>/editMode} ? 'sap-icon://save' : 'sap-icon://edit'}" 
                         press="onToggleEdit"/>
                     <Button 
-                        text="Delete" 
+                        text="{= ${detailData>/trtyp} ==='L' ? 'Deleted' : 'Delete' }" 
+                        visible="{= ${detailData>/trtyp} ==='L' ? false :  ${detailData>/status} ==='A'? false : true }"
                         icon="sap-icon://delete" 
                         type="Reject"
                         press="onDelete"
-                        visible="{= !${detailData>/editMode}}"/>
+                        
+                        />
+                                                <!-- visible="{= !${detailData>/editMode}}" -->
+
                     <Button 
                         text="Cancel" 
                         icon="sap-icon://decline" 
@@ -42,21 +66,28 @@
 
         <!-- Header Content -->
         <uxap:headerContent>
-            <HBox wrap="Wrap">
-                <VBox class="sapUiSmallMarginEnd">
+            <HBox wrap="Wrap" visible="false">
+                  <VBox class="sapUiSmallMarginEnd">
+                    <Label text="Request Status"/>
+                    <ObjectStatus 
+                        text="{detailData>/statusText}" 
+                        state="{path: 'detailData>/status', formatter: '.formatStatus'}"
+                        icon="sap-icon://status-in-process"/>
+                </VBox>
+                <!-- <VBox class="sapUiSmallMarginEnd" >
                     <Label text="Customer Number"/>
                     <ObjectIdentifier
                         title="{detailData>/kunnr}"
                         text="Customer"/>
                 </VBox>
-                <VBox class="sapUiSmallMarginEnd">
+                <VBox class="sapUiSmallMarginEnd" >
                     <Label text="Material Number"/>
                     <ObjectIdentifier
                         title="{detailData>/kdmat}"
                         text="Material"/>
                 </VBox>
                 <VBox class="sapUiSmallMarginEnd">
-                    <Label text="Status"/>
+                    <Label text="Customer Material Request Status"/>
                     <ObjectStatus 
                         text="{detailData>/statusText}" 
                         state="{path: 'detailData>/status', formatter: '.formatStatus'}"
@@ -69,7 +100,7 @@
                 <VBox class="sapUiSmallMarginEnd">
                     <Label text="Last Changed By"/>
                     <Text text="{detailData>/last_changed_by_user}"/>
-                </VBox>
+                </VBox> -->
             </HBox>
         </uxap:headerContent>
 
@@ -77,117 +108,35 @@
         <uxap:sections>
             
             <!-- Customer & Organization Section -->
-            <uxap:ObjectPageSection title="Customer &amp; Organization Information" titleUppercase="false">
+            <uxap:ObjectPageSection title="Basic Information" titleUppercase="false">
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection>
                         <uxap:blocks>
                             <form:Form editable="{detailData>/editMode}">
                                 <form:layout>
                                     <form:ResponsiveGridLayout
-                                        labelSpanXL="4"
-                                        labelSpanL="4"
-                                        labelSpanM="4"
+                                        labelSpanXL="2"
+                                        labelSpanL="2"
+                                        labelSpanM="2"
                                         labelSpanS="12"
                                         adjustLabelSpan="false"
                                         emptySpanXL="0"
                                         emptySpanL="0"
                                         emptySpanM="0"
                                         emptySpanS="0"
-                                        columnsXL="2"
-                                        columnsL="2"
+                                        columnsXL="3"
+                                        columnsL="3"
                                         columnsM="1"
-                                        singleContainerFullSize="false"/>
+                                        singleContainerFullSize="true"/>
                                 </form:layout>
                                 <form:formContainers>
-                                    <form:FormContainer>
+                                    <form:FormContainer visible="true">
                                         <form:formElements>
-                                            <form:FormElement label="Customer Number">
+                                       
+                                                 <form:FormElement >
                                                 <form:fields>
-                                                    <Input 
-                                                        value="{detailData>/kunnr}"
-                                                        editable="false">
-                                                        <layoutData>
-                                                            <FlexItemData growFactor="1"/>
-                                                        </layoutData>
-                                                    </Input>
-                                                </form:fields>
-                                            </form:FormElement>
-                                            
-                                            <form:FormElement label="Sales Organization">
-                                                <form:fields>
-                                                    <Input 
-                                                        value="{detailData>/vkorg}"
-                                                        editable="false">
-                                                        <layoutData>
-                                                            <FlexItemData growFactor="1"/>
-                                                        </layoutData>
-                                                    </Input>
-                                                </form:fields>
-                                            </form:FormElement>
-                                        </form:formElements>
-                                    </form:FormContainer>
-                                    
-                                    <form:FormContainer>
-                                        <form:formElements>
-                                            <form:FormElement label="Location">
-                                                <form:fields>
-                                                    <Input 
-                                                        value="{detailData>/zzloc}"
-                                                        editable="{detailData>/editMode}">
-                                                        <layoutData>
-                                                            <FlexItemData growFactor="1"/>
-                                                        </layoutData>
-                                                    </Input>
-                                                </form:fields>
-                                            </form:FormElement>
-                                            
-                                            <form:FormElement label="Department">
-                                                <form:fields>
-                                                    <Input 
-                                                        value="{detailData>/zzdepartment}"
-                                                        editable="{detailData>/editMode}">
-                                                        <layoutData>
-                                                            <FlexItemData growFactor="1"/>
-                                                        </layoutData>
-                                                    </Input>
-                                                </form:fields>
-                                            </form:FormElement>
-                                        </form:formElements>
-                                    </form:FormContainer>
-                                </form:formContainers>
-                            </form:Form>
-                        </uxap:blocks>
-                    </uxap:ObjectPageSubSection>
-                </uxap:subSections>
-            </uxap:ObjectPageSection>
+                                                    <Label text="CIC:" class="sapUiSmallMarginTop" textAlign="Right" ></Label>
 
-            <!-- Material Information Section -->
-            <uxap:ObjectPageSection title="Material Information" titleUppercase="false">
-                <uxap:subSections>
-                    <uxap:ObjectPageSubSection>
-                        <uxap:blocks>
-                            <form:Form editable="{detailData>/editMode}">
-                                <form:layout>
-                                    <form:ResponsiveGridLayout
-                                        labelSpanXL="4"
-                                        labelSpanL="4"
-                                        labelSpanM="4"
-                                        labelSpanS="12"
-                                        adjustLabelSpan="false"
-                                        emptySpanXL="0"
-                                        emptySpanL="0"
-                                        emptySpanM="0"
-                                        emptySpanS="0"
-                                        columnsXL="2"
-                                        columnsL="2"
-                                        columnsM="1"
-                                        singleContainerFullSize="false"/>
-                                </form:layout>
-                                <form:formContainers>
-                                    <form:FormContainer title="Basic Material Data">
-                                        <form:formElements>
-                                            <form:FormElement label="Material Number">
-                                                <form:fields>
                                                     <Input 
                                                         value="{detailData>/kdmat}"
                                                         editable="false">
@@ -197,9 +146,11 @@
                                                     </Input>
                                                 </form:fields>
                                             </form:FormElement>
-                                            
-                                            <form:FormElement label="Material Description">
+                                         
+                                              <form:FormElement >
                                                 <form:fields>
+                                                    <Label text="Description:" class="sapUiSmallMarginTop" textAlign="Right"></Label>
+
                                                     <TextArea 
                                                         value="{detailData>/postx}"
                                                         rows="2"
@@ -211,92 +162,117 @@
                                                     </TextArea>
                                                 </form:fields>
                                             </form:FormElement>
-                                            
-                                            <form:FormElement label="Material Usage">
-                                                <form:fields>
-                                                    <Input 
-                                                        value="{detailData>/zzmaterialusage}"
-                                                        editable="{detailData>/editMode}">
-                                                        <layoutData>
-                                                            <FlexItemData growFactor="1"/>
-                                                        </layoutData>
-                                                    </Input>
-                                                </form:fields>
-                                            </form:FormElement>
-                                            
-                                            <form:FormElement label="EAN">
-                                                <form:fields>
-                                                    <Input 
-                                                        value="{detailData>/zzean11}"
-                                                        editable="{detailData>/editMode}">
-                                                        <layoutData>
-                                                            <FlexItemData growFactor="1"/>
-                                                        </layoutData>
-                                                    </Input>
-                                                </form:fields>
-                                            </form:FormElement>
+
+                                        
                                         </form:formElements>
                                     </form:FormContainer>
                                     
-                                    <form:FormContainer title="Packaging Details">
+                                    <form:FormContainer>
                                         <form:formElements>
-                                            <form:FormElement label="Pack Quantity">
-                                                <form:fields>
-                                                    <StepInput 
-                                                        value="{detailData>/zzpack}"
-                                                        min="0"
-                                                        max="9999"
-                                                        step="1"
-                                                        width="100%"
-                                                        editable="{detailData>/editMode}">
-                                                        <layoutData>
-                                                            <FlexItemData growFactor="1"/>
-                                                        </layoutData>
-                                                    </StepInput>
-                                                </form:fields>
-                                            </form:FormElement>
+                                           
                                             
-                                            <form:FormElement label="Unit of Measure">
+                                         
+
+
+                                            <form:FormElement >
                                                 <form:fields>
+                                                    <Label text="BDR Sub" class="sapUiSmallMarginTop" textAlign="Right"></Label>
                                                     <Input 
-                                                        value="{detailData>/zzuom}"
-                                                        editable="{detailData>/editMode}">
+                                                        id="locationInput"
+                                                        value="{detailData>/zzloc}"
+                                                        editable="{detailData>/editMode}"
+                                                        showValueHelp="{detailData>/editMode}"
+                                                        valueHelpRequest="onLocationValueHelp"
+                                                        showSuggestion="true"
+                                                        suggest="onLocationSuggest"
+                                                        suggestionItemSelected="onLocationSelected">
                                                         <layoutData>
                                                             <FlexItemData growFactor="1"/>
                                                         </layoutData>
                                                     </Input>
                                                 </form:fields>
                                             </form:FormElement>
-                                            
-                                            <form:FormElement label="Warehouse Pack">
+
+                                               <form:FormElement >
                                                 <form:fields>
-                                                    <StepInput 
-                                                        value="{detailData>/zzpack_whse}"
-                                                        min="0"
-                                                        max="9999"
-                                                        step="1"
-                                                        width="100%"
-                                                        editable="{detailData>/editMode}">
-                                                        <layoutData>
-                                                            <FlexItemData growFactor="1"/>
-                                                        </layoutData>
-                                                    </StepInput>
-                                                </form:fields>
-                                            </form:FormElement>
-                                            
-                                            <form:FormElement label="Size">
-                                                <form:fields>
+                                                    <Label text="Department:" class="sapUiSmallMarginTop" textAlign="Right"></Label>
                                                     <Input 
-                                                        value="{detailData>/zzsize}"
-                                                        editable="{detailData>/editMode}">
+                                                        id="departmentInput"
+                                                        value="{detailData>/zzdepartment}"
+                                                        editable="{detailData>/editMode}"
+                                                        showValueHelp="{detailData>/editMode}"
+                                                        valueHelpRequest="onDepartmentValueHelp"
+                                                        showSuggestion="true"
+                                                        suggest="onDepartmentSuggest"
+                                                        suggestionItemSelected="onDepartmentSelected">
                                                         <layoutData>
                                                             <FlexItemData growFactor="1"/>
                                                         </layoutData>
                                                     </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+
+
+
+                                            
+
+
+                                        </form:formElements>
+                                    </form:FormContainer>
+
+
+
+
+
+
+
+
+
+
+
+                                     <form:FormContainer visible="true">
+                                        <form:formElements>
+                                            <!-- <form:FormElement >
+                                                <form:fields>
+                                              <Label text="Request Status: " class="sapUiSmallMarginTop" textAlign="Right"></Label>
+
+                                                  <Input editable="true"
+                        value="{detailData>/statusText}" 
+                        valueState="{path: 'detailData>/status', formatter: '.formatStatus'}"  
+                        icon="sap-icon://status-in-process"/>
+                                                </form:fields>
+                                            </form:FormElement> -->
+                                            
+                                            <form:FormElement >
+                                                <form:fields>
+                                                     <Label text="Created By: " class="sapUiSmallMarginTop" textAlign="Right" ></Label>
+                                                    <Input value="{detailData>/ernam}" editable="false" />
+                                                </form:fields>
+                                            </form:FormElement>
+                                             
+
+                                             <form:FormElement >
+                                                <form:fields>
+                                                   <Label text="Created On : " class="sapUiSmallMarginTop" textAlign="Right"/>
+                                                     <Input value="{path: 'detailData>/createdatetime', formatter: '.formatDate'}"  editable="false"/>
+                                                </form:fields>
+                                            </form:FormElement>
+
+
+                                             <form:FormElement >
+                                                <form:fields>
+                                                   <Label text="Last Changed on: " class="sapUiSmallMarginTop" textAlign="Right"/>
+                                                     <Input value="{path: 'detailData>/locallastchangedat', formatter: '.formatDate'}" editable="false"/>
                                                 </form:fields>
                                             </form:FormElement>
                                         </form:formElements>
                                     </form:FormContainer>
+
+
+
+
+
+
                                 </form:formContainers>
                             </form:Form>
                         </uxap:blocks>
@@ -304,7 +280,7 @@
                 </uxap:subSections>
             </uxap:ObjectPageSection>
 
-            <!-- Additional Information Section -->
+            <!-- Material Information Section -->
             <uxap:ObjectPageSection title="Additional Information" titleUppercase="false">
                 <uxap:subSections>
                     <uxap:ObjectPageSubSection>
@@ -321,20 +297,247 @@
                                         emptySpanL="0"
                                         emptySpanM="0"
                                         emptySpanS="0"
+                                        columnsXL="3"
+                                        columnsL="3"
+                                        columnsM="1"
+                                        singleContainerFullSize="false"/>
+                                </form:layout>
+                                <form:formContainers>
+                                    <form:FormContainer >
+                                        <form:formElements>
+                                        
+                                            
+                                          
+                                            
+                                            <form:FormElement >
+                                                <form:fields>
+                                                     <Label text="Usage:" class="sapUiSmallMarginTop" textAlign="Right"></Label>
+
+                                                    <!-- <Input 
+                                                        id="materialUsageInput"
+                                                        value="{detailData>/zzmaterialusage}"
+                                                        editable="{detailData>/editMode}"
+                                                        showValueHelp="{detailData>/editMode}"
+                                                        valueHelpRequest="onMaterialUsageValueHelp"
+                                                        showSuggestion="true"
+                                                        suggest="onMaterialUsageSuggest"
+                                                        suggestionItemSelected="onMaterialUsageSelected">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input> -->
+                                                    <Select selectedKey="{detailData>/zzmaterialusage}"   editable="{detailData>/editMode}">
+                                        <items>
+                                            <core:Item key="A" text="Material"/>
+                                            <core:Item key="B" text="Resale"/>
+                                           
+
+                                        </items>
+                                    </Select>
+                                                </form:fields>
+                                            </form:FormElement>
+
+
+                                            <form:FormElement label="Transaction Type" visible="false">
+    <form:fields>
+
+
+        <Input 
+            id="transactionTypeInput"
+            value="{detailData>/trtyp}"
+            editable="{detailData>/editMode}"
+            showValueHelp="{detailData>/editMode}"
+            valueHelpRequest="onTransactionTypeValueHelp"
+            showSuggestion="true"
+            suggest="onTransactionTypeSuggest"
+            suggestionItemSelected="onTransactionTypeSelected">
+            <layoutData>
+                <FlexItemData growFactor="1"/>
+            </layoutData>
+        </Input>
+    </form:fields>
+</form:FormElement>
+                                            
+                                            <form:FormElement >
+                                                <form:fields>
+
+                                                   <Label text="UPC:" class="sapUiSmallMarginTop" textAlign="Right"></Label>
+
+                                                    <Input 
+                                                        value="{detailData>/zzean11}"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+
+                                              <form:FormElement >
+                                                <form:fields>
+                                                     <Label text="Pack Quantity:" class="sapUiSmallMarginTop" textAlign="Right"></Label>
+
+                                                    <StepInput 
+                                                    textAlign="Left"
+                                                        value="{detailData>/zzpack}"
+                                                        min="0"
+                                                        max="9999"
+                                                        step="1"
+                                                        width="100%"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </StepInput>
+                                                </form:fields>
+                                            </form:FormElement>
+
+                                             <form:FormElement >
+                                                <form:fields>
+
+                                                    <Label text="BDR Sub Description:" class="sapUiSmallMarginTop" textAlign="Right"></Label>
+
+                                                    <Input 
+                                                        value="{detailData>/zzbdrsub}"
+                                                        editable="false"
+                                                        maxLength="100"
+                                                        >
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input>
+                                                </form:fields>
+                                            </form:FormElement>
+                                        </form:formElements>
+                                    </form:FormContainer>
+                                    
+                                    <form:FormContainer >
+                                        <form:formElements>
+                                          
+                                            
+                                            <form:FormElement >
+                                                <form:fields>
+                                                      <Label text="UOM:" class="sapUiSmallMarginTop" textAlign="Right"></Label>
+
+                                                    <!-- <Input 
+                                                        value="{detailData>/zzuom}"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input> -->
+
+
+
+                                                     <Select selectedKey="{detailData>/zzuom}"  editable="{detailData>/editMode}">
+                                        <items>
+                                            <core:Item key="CS" text="Case"/>
+                                            <core:Item key="EA" text="Each"/>
+                                            <core:Item key="PAL" text="Pallet"/>
+                                            <core:Item key="OZ" text="Ounce"/>
+                                            <core:Item key="GAL" text="Gallon"/>
+                                            <core:Item key="LB" text="Box"/>
+                                            <core:Item key="CT" text="Carton"/>
+                                            <core:Item key="QT" text="Quartz"/>
+
+                                        </items>
+                                    </Select>
+
+
+
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement >
+                                                <form:fields>
+                                                      <Label text="Pack Warehouse:" class="sapUiSmallMarginTop" textAlign="Right"></Label>
+
+                                                    <StepInput 
+                                                    textAlign="Left"
+                                                        value="{detailData>/zzpack_whse}"
+                                                        min="0"
+                                                        max="9999"
+                                                        step="1"
+                                                        width="100%"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </StepInput>
+                                                </form:fields>
+                                            </form:FormElement>
+                                            
+                                            <form:FormElement >
+                                                <form:fields>
+                                                    <Label text="Size:" class="sapUiSmallMarginTop" textAlign="Right"></Label>
+
+                                                    <!-- <Input 
+                                                        value="{detailData>/zzsize}"
+                                                        editable="{detailData>/editMode}">
+                                                        <layoutData>
+                                                            <FlexItemData growFactor="1"/>
+                                                        </layoutData>
+                                                    </Input> -->
+
+                                                      <Select selectedKey="{detailData>/zzsize}"  editable="{detailData>/editMode}">
+                                        <items>
+                                            <core:Item key="CS" text="Case"/>
+                                            <core:Item key="EA" text="Each"/>
+                                            <core:Item key="PAL" text="Pallet"/>
+                                            <core:Item key="OZ" text="Ounce"/>
+                                            <core:Item key="GAL" text="Gallon"/>
+                                            <core:Item key="LB" text="Box"/>
+                                            <core:Item key="CT" text="Carton"/>
+                                            <core:Item key="QT" text="Quartz"/>
+
+                                        </items>
+                                    </Select>
+                                                </form:fields>
+                                            </form:FormElement>
+                                        </form:formElements>
+                                    </form:FormContainer>
+                                </form:formContainers>
+                            </form:Form>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <!-- Additional Information Section -->
+            <uxap:ObjectPageSection title="Additional Information" visible="false">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection>
+                        <uxap:blocks>
+                            <form:Form editable="{detailData>/editMode}">
+                                <form:layout>
+                                    <form:ResponsiveGridLayout
+                                        labelSpanXL="4"
+                                        labelSpanL="4"
+                                        labelSpanM="4"
+                                        labelSpanS="4"
+                                        adjustLabelSpan="false"
+                                        emptySpanXL="0"
+                                        emptySpanL="0"
+                                        emptySpanM="0"
+                                        emptySpanS="0"
                                         columnsXL="1"
                                         columnsL="1"
                                         columnsM="1"
                                         singleContainerFullSize="false"/>
                                 </form:layout>
-                                <form:formContainers>
-                                    <form:FormContainer>
+                                <form:formContainers >
+                                    <form:FormContainer visible="true">
                                         <form:formElements>
-                                            <form:FormElement label="BDR Sub Category">
+                                            <form:FormElement >
                                                 <form:fields>
+
+                                                    <Label text="BDR Sub Description:" class="sapUiSmallMarginTop" textAlign="Right"></Label>
+
                                                     <Input 
                                                         value="{detailData>/zzbdrsub}"
+                                                        editable="false"
                                                         maxLength="100"
-                                                        editable="{detailData>/editMode}">
+                                                        >
                                                         <layoutData>
                                                             <FlexItemData growFactor="1"/>
                                                         </layoutData>

@@ -2,6 +2,55 @@
     controllerName="knmtapp.controller.App"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
-    displayBlock="true">
-    <App id="app" />
+    xmlns:f="sap.f"
+    displayBlock="true"
+    
+    height="100%">
+    <Page
+        backgroundDesign="Standard"
+        contentOnlyBusy="false"
+        enableScrolling="false"
+    
+        floatingFooter="false"
+        navButtonTooltip=""
+        showFooter="false"
+        showHeader="false"
+        showNavButton="false"
+        showSubHeader="false"
+        titleAlignment="Auto"
+        titleLevel="Auto"
+    >
+        <content>
+            
+        
+ 
+ 
+    <f:ShellBar
+        id="shellBar"
+        title="Albertsons K&amp;B {currentUser>/zsystem}" 
+        homeIcon="sap-icon://product"
+        showCopilot="false"
+        showSearch="false"
+        showNotifications="false"
+        showProductSwitcher="false"
+        visible="{= ${currentUser>/isAuthenticated} }">
+        
+        <f:profile>
+            <f:Avatar
+                placeholder="{currentUser>/zsystem}"
+                initials="{= ${currentUser>/displayName}.substring(0,2).toUpperCase() }"
+                displaySize="XS"
+                backgroundColor="Accent6"
+                press="onAvatarPress"/>
+        </f:profile>
+        
+        <f:additionalContent>
+            <ToolbarSpacer/>
+        </f:additionalContent>
+    </f:ShellBar>
+    
+    <App id="app" height="100%" tooltip="{currentUser>/zsystem}">
+    </App>
+    </content>
+       </Page>
 </mvc:View>

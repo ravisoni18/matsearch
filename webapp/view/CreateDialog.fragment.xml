@@ -1,171 +1,259 @@
 <core:FragmentDefinition
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
-    xmlns:form="sap.ui.layout.form"
-    xmlns:l="sap.ui.layout">
+    xmlns:form="sap.ui.layout.form">
     
     <Dialog
-        id="createDialog"
-        title="Create New KNMT Request"
-        contentWidth="900px"
-        contentHeight="auto"
-        resizable="true"
-        draggable="true"
+        title="Create New Request"
         afterClose="onDialogClose">
         
         <content>
-            <VBox class="sapUiSmallMargin">
+            <form:Form editable="true" title="Basic Information" width="100%">
+                <form:layout>
+                    <form:ResponsiveGridLayout
+                        labelSpanXL="4"
+                        labelSpanL="4"
+                        labelSpanM="4"
+                        labelSpanS="12"
+                        adjustLabelSpan="false"
+                        emptySpanXL="0"
+                        emptySpanL="0"
+                        emptySpanM="0"
+                        emptySpanS="0"
+                        columnsXL="2"
+                        columnsL="2"
+                        columnsM="2"
+                        singleContainerFullSize="false"/>
+                </form:layout>
                 
-                <!-- Single Form with All Fields -->
-                <form:Form editable="true">
-                    <form:layout>
-                        <form:ResponsiveGridLayout
-                            labelSpanXL="3" labelSpanL="4" labelSpanM="4" labelSpanS="12"
-                            emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
-                            columnsXL="3" columnsL="2" columnsM="2" columnsS="1"
-                            singleContainerFullSize="false"/>
-                    </form:layout>
-                    <form:formContainers>
-                        <!-- Container 1: Key Fields -->
-                        <form:FormContainer title="Key Information">
-                            <form:formElements>
-                                <form:FormElement label="Customer *">
-                                    <form:fields>
-                                        <Input id="createKunnr" 
-                                               placeholder="Customer Number"
-                                               required="true"
-                                               valueState="None"/>
-                                    </form:fields>
-                                </form:FormElement>
-                                
-                                <form:FormElement label="Sales Org *">
-                                    <form:fields>
-                                        <Input id="createVkorg" 
-                                               placeholder="Sales Organization"
-                                               required="true"
-                                               valueState="None"/>
-                                    </form:fields>
-                                </form:FormElement>
-                                
-                                <form:FormElement label="Material *">
-                                    <form:fields>
-                                        <Input id="createKdmat" 
-                                               placeholder="Material Number"
-                                               required="true"
-                                               valueState="None"/>
-                                    </form:fields>
-                                </form:FormElement>
-                                
-                                <form:FormElement label="Description">
-                                    <form:fields>
-                                        <Input id="createPostx" 
-                                               placeholder="Material Description"
-                                               maxLength="200"/>
-                                    </form:fields>
-                                </form:FormElement>
-                            </form:formElements>
-                        </form:FormContainer>
-                        
-                        <!-- Container 2: Location & Packaging -->
-                        <form:FormContainer title="Location &amp; Packaging">
-                            <form:formElements>
-                                <form:FormElement label="Location">
-                                    <form:fields>
-                                        <Input id="createZzloc" 
-                                               placeholder="Location Code" maxLength="3"/>
-                                    </form:fields>
-                                </form:FormElement>
-                                
-                                <form:FormElement label="Department">
-                                    <form:fields>
-                                        <Input id="createZzdepartment" 
-                                               placeholder="Department" maxLength="3"/>
-                                    </form:fields>
-                                </form:FormElement>
-                                
-                                <form:FormElement label="EAN">
-                                    <form:fields>
-                                        <Input id="createZzean11" 
-                                               placeholder="EAN/Barcode" maxLength="18"/>
-                                    </form:fields>
-                                </form:FormElement>
-                                
-                                <form:FormElement label="UOM">
-                                    <form:fields>
-                                        <Select id="createZzuom" selectedKey="CS">
-                                            <items>
-                                                <core:Item key="CS" text="Case"/>
-                                                <core:Item key="EA" text="Each"/>
-                                                <core:Item key="PC" text="Piece"/>
-                                                <core:Item key="BX" text="Box"/>
-                                                <core:Item key="PK" text="Pack"/>
-                                            </items>
-                                        </Select>
-                                    </form:fields>
-                                </form:FormElement>
-                            </form:formElements>
-                        </form:FormContainer>
-                        
-                        <!-- Container 3: Additional Details -->
-                        <form:FormContainer title="Additional Details">
-                            <form:formElements>
-                                <form:FormElement label="Usage">
-                                    <form:fields>
-                                        <Select id="createZzmaterialusage">
-                                            <items>
-                                                <core:Item key="" text="Select"/>
-                                                <core:Item key="A" text="Type A"/>
-                                                <core:Item key="B" text="Type B"/>
-                                                <core:Item key="C" text="Type C"/>
-                                            </items>
-                                        </Select>
-                                    </form:fields>
-                                </form:FormElement>
-                                
-                                <form:FormElement label="Pack Qty">
-                                    <form:fields>
-                                        <StepInput id="createZzpack"
-                                                   min="0" max="9999" step="1" value="1"
-                                                   width="100%"/>
-                                    </form:fields>
-                                </form:FormElement>
-                                
-                                <form:FormElement label="Whse Pack">
-                                    <form:fields>
-                                        <StepInput id="createZzpack_whse"
-                                                   min="0" max="9999" step="1" value="1"
-                                                   width="100%"/>
-                                    </form:fields>
-                                </form:FormElement>
-                                
-                                <form:FormElement label="Size">
-                                    <form:fields>
-                                        <Input id="createZzsize" 
-                                               placeholder="e.g., CS,L, XL, 10oz"/>
-                                    </form:fields>
-                                </form:FormElement>
-                                
-                                <form:FormElement label="BDR Sub">
-                                    <form:fields>
-                                        <Input id="createZzbdrsub" 
-                                               placeholder="BDR Sub Category"
-                                               maxLength="100"/>
-                                    </form:fields>
-                                </form:FormElement>
-                            </form:formElements>
-                        </form:FormContainer>
-                    </form:formContainers>
-                </form:Form>
+                <form:formContainers>
+                    <!-- Key Fields Section -->
+                    <form:FormContainer>
+                        <form:formElements>
+                            <form:FormElement label="CIC">
+                                <form:fields>
+                                    <Input 
+                                        value="{createModel>/kdmat}"
+                                        placeholder="Enter 8-digit CIC (numeric only)"
+                                        valueState="{createModel>/kdmatState}"
+                                        valueStateText="{createModel>/kdmatStateText}"
+                                        maxLength="8"
+                                        required="true"
+                                        type="Number"/>
+                                </form:fields>
+                            </form:FormElement>
+
+                            <form:FormElement label="Description">
+                                <form:fields>
+                                    <TextArea 
+                                        value="{createModel>/postx}"
+                                        placeholder="Enter Description"
+                                        rows="2"
+                                        maxLength="200"
+                                        valueState="{createModel>/postxState}"
+                                        valueStateText="{createModel>/postxStateText}"
+                                        required="true"/>
+                                </form:fields>
+                            </form:FormElement>
+                        </form:formElements>
+                    </form:FormContainer>
+                    
+                    <!-- Organization Details Section -->
+                    <form:FormContainer>
+                        <form:formElements>
+                            <form:FormElement label="BDR Sub">
+                                <form:fields>
+                                    <Input 
+                                        value="{createModel>/zzloc}"
+                                        placeholder="Enter BDR Sub"
+                                        showValueHelp="true"
+                                        valueHelpRequest="onCreateLocationValueHelp"
+                                        showSuggestion="true"
+                                        suggest="onCreateLocationSuggest"
+                                        suggestionItemSelected="onCreateLocationSelected"
+                                        valueState="{createModel>/zzlocationState}"
+                                        valueStateText="{createModel>/zzlocationStateText}"
+                                        required="true"/>
+                                </form:fields>
+                            </form:FormElement>
+                            
+                            <form:FormElement label="Department">
+                                <form:fields>
+                                    <Input 
+                                        value="{createModel>/zzdepartment}"
+                                        placeholder="Enter Department"
+                                        showValueHelp="true"
+                                        valueHelpRequest="onCreateDepartmentValueHelp"
+                                        showSuggestion="true"
+                                        suggest="onCreateDepartmentSuggest"
+                                        suggestionItemSelected="onCreateDepartmentSelected"
+                                        valueState="{createModel>/zzdepartmentState}"
+                                        valueStateText="{createModel>/zzdepartmentStateText}"
+                                        required="true"/>
+                                </form:fields>
+                            </form:FormElement>
+                        </form:formElements>
+                    </form:FormContainer>
+                </form:formContainers>
+            </form:Form>
+
+            <form:Form editable="true" title="Additional Information" width="100%">
+                <form:layout>
+                    <form:ResponsiveGridLayout
+                        labelSpanXL="4"
+                        labelSpanL="4"
+                        labelSpanM="4"
+                        labelSpanS="12"
+                        adjustLabelSpan="false"
+                        emptySpanXL="0"
+                        emptySpanL="0"
+                        emptySpanM="0"
+                        emptySpanS="0"
+                        columnsXL="2"
+                        columnsL="2"
+                        columnsM="2"
+                        singleContainerFullSize="false"/>
+                </form:layout>
                 
-            </VBox>
+                <form:formContainers>
+                    <!-- Key Fields Section -->
+                    <form:FormContainer>
+                        <form:formElements>
+                            <form:FormElement label="Usage">
+                                <form:fields>
+                                    <ComboBox 
+                                        selectedKey="{createModel>/zzmaterialusage}"
+                                        valueState="{createModel>/zzmaterialusageState}"
+                                        valueStateText="{createModel>/zzmaterialusageStateText}"
+                                        required="true">
+                                        <items>
+                                            <core:Item key="" text="-- Select Usage --"/>
+                                            <core:Item key="A" text="Material"/>
+                                            <core:Item key="B" text="Resale"/>
+                                        </items>
+                                    </ComboBox>
+                                </form:fields>
+                            </form:FormElement>
+                            
+                            <form:FormElement label="UPC">
+                                <form:fields>
+                                    <Input 
+                                        value="{createModel>/zzean11}"
+                                        placeholder="Enter 12-digit UPC starting with 0"
+                                        valueState="{createModel>/zzean11State}"
+                                        valueStateText="{createModel>/zzean11StateText}"
+                                        maxLength="12"
+                                        required="true"
+                                        type="Number"/>
+                                </form:fields>
+                            </form:FormElement>
+
+                            <form:FormElement label="BDR Sub Description" visible="true">
+                                <form:fields>
+                                    <Input 
+                                        editable="false"
+                                        id="BDRSubCreateInput"
+                                        value="{createModel>/zzbdrsub}"
+                                        placeholder="Enter BDR Sub Description"
+                                        maxLength="100"/>
+                                </form:fields>
+                            </form:FormElement>
+                        </form:formElements>
+                    </form:FormContainer>
+                    
+                    <!-- Packaging Details Section -->
+                    <form:FormContainer>
+                        <form:formElements>
+                            <form:FormElement label="Pack">
+                                <form:fields>
+                                    <StepInput 
+                                        value="{createModel>/zzpack}"
+                                        min="1"
+                                        max="9999"
+                                        step="1"
+                                        width="100%"
+                                        valueState="{createModel>/zzpackState}"
+                                        valueStateText="{createModel>/zzpackStateText}"
+                                        required="true"/>
+                                </form:fields>
+                            </form:FormElement>
+                            
+                            <form:FormElement label="UOM">
+                                <form:fields>
+                                    <ComboBox 
+                                        selectedKey="{createModel>/zzuom}"
+                                        valueState="{createModel>/zzuomState}"
+                                        valueStateText="{createModel>/zzuomStateText}"
+                                        required="true">
+                                        <items>
+                                            <core:Item key="" text="-- Select UOM --"/>
+                                            <core:Item key="CS" text="Case"/>
+                                            <core:Item key="EA" text="Each"/>
+                                            <core:Item key="PAL" text="Pallet"/>
+                                            <core:Item key="OZ" text="Ounce"/>
+                                            <core:Item key="GAL" text="Gallon"/>
+                                            <core:Item key="LB" text="Box"/>
+                                            <core:Item key="CT" text="Carton"/>
+                                            <core:Item key="QT" text="Quartz"/>
+                                        </items>
+                                    </ComboBox>
+                                </form:fields>
+                            </form:FormElement>
+                            
+                            <form:FormElement label="Pack Warehouse">
+                                <form:fields>
+                                    <StepInput 
+                                        value="{createModel>/zzpack_whse}"
+                                        min="1"
+                                        max="9999"
+                                        step="1"
+                                        width="100%"
+                                        valueState="{createModel>/zzpack_whseState}"
+                                        valueStateText="{createModel>/zzpack_whseStateText}"
+                                        required="true"/>
+                                </form:fields>
+                            </form:FormElement>
+                            
+                            <form:FormElement label="Size">
+                                <form:fields>
+                                    <ComboBox 
+                                        selectedKey="{createModel>/zzsize}"
+                                        valueState="{createModel>/zzsizeState}"
+                                        valueStateText="{createModel>/zzsizeStateText}"
+                                        required="true">
+                                        <items>
+                                            <core:Item key="" text="-- Select Size --"/>
+                                            <core:Item key="CS" text="Case"/>
+                                            <core:Item key="EA" text="Each"/>
+                                            <core:Item key="PAL" text="Pallet"/>
+                                            <core:Item key="OZ" text="Ounce"/>
+                                            <core:Item key="GAL" text="Gallon"/>
+                                            <core:Item key="LB" text="Box"/>
+                                            <core:Item key="CT" text="Carton"/>
+                                            <core:Item key="QT" text="Quartz"/>
+                                        </items>
+                                    </ComboBox>
+                                </form:fields>
+                            </form:FormElement>
+                        </form:formElements>
+                    </form:FormContainer>
+                </form:formContainers>
+            </form:Form>
         </content>
         
         <beginButton>
-            <Button text="Create" type="Emphasized" icon="sap-icon://save" press="onCreateRequest"/>
+            <Button 
+                text="Create" 
+                type="Emphasized" 
+                icon="sap-icon://create"
+                press="onCreateRequest"/>
         </beginButton>
+        
         <endButton>
-            <Button text="Cancel" press="onCancelCreate"/>
+            <Button 
+                text="Cancel" 
+                icon="sap-icon://decline"
+                press="onCancelCreate"/>
         </endButton>
     </Dialog>
-    
 </core:FragmentDefinition>

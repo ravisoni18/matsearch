@@ -3,8 +3,37 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KNMT Request Management</title>
+    <title>Albertsons - Porky Request Management</title>
     <link rel="stylesheet" href="webapp/css/style.css">
+
+
+
+      <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    
+    <!-- Firebase Configuration -->
+    <script>
+        // Your Firebase configuration
+        // Replace these values with your actual Firebase project configuration
+     const firebaseConfig = {
+  apiKey: "AIzaSyC5NoAGh5QTJrYTfegKq23ymTtnZZyp2Y4",
+  authDomain: "customer-auth-64317.firebaseapp.com",
+  projectId: "customer-auth-64317",
+  storageBucket: "customer-auth-64317.firebasestorage.app",
+  messagingSenderId: "778719189677",
+  appId: "1:778719189677:web:0d30e893ba922e1c0a4424",
+  measurementId: "G-C7HZWY3E31"
+};
+
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+
+
+
     <script id="sap-ui-bootstrap"
         src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
         data-sap-ui-theme="sap_horizon"
